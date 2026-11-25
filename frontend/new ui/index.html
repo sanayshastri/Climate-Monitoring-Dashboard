@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Climate Warning Dashboard — macOS Weather Reference</title>
+  <meta name="description"
+    content="Next-generation Climate Warning Dashboard featuring dynamic weather canvas animations, severe weather advisories, glassmorphic UI, and interactive hazard tracking.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Animated Dynamic Weather Background Canvas (Full-bleed) -->
+  <canvas id="weather-canvas"></canvas>
+
+  <div class="app-container">
+
+    <!-- ==========================================================================
+         1. SIDEBAR REGION (~360px Fixed Width)
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-top-bar">
+          <div class="app-brand">
+            <svg class="brand-icon" viewBox="0 0 24 24">
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+              <circle cx="12" cy="12" r="4" />
+            </svg>
+            <span>Climate Guard</span>
+          </div>
+          <button class="sidebar-toggle-btn" id="collapse-sidebar-btn" title="Collapse Sidebar (⌘S)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <line x1="9" y1="3" x2="9" y2="21" />
+              <path d="M15 10l-3 3 3 3" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Pill-shaped Search Bar -->
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search for a city or location...">
+        </div>
+      </div>
+
+      <!-- Vertically Stacked Location Cards -->
+      <div class="location-list" id="location-list">
+        <!-- Dynamically rendered location cards -->
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         2. MAIN CONTENT PANE
+         ========================================================================== -->
+    <main class="main-content" id="main-content">
+
+      <!-- Top Bar for Collapsed Sidebar Restore -->
+      <div class="main-top-bar">
+        <button class="open-sidebar-btn" id="expand-sidebar-btn" style="display: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <line x1="9" y1="3" x2="9" y2="21" />
+            <path d="M12 10l3 3-3 3" />
+          </svg>
+          <span>Locations</span>
+        </button>
+        <div class="last-updated" id="last-updated-text">Updated Live · Severe Weather Monitoring Active</div>
+      </div>
+
+      <!-- HERO ZONE (Centered Location & Current Conditions) -->
+      <section class="hero-zone" id="hero-zone">
+        <div class="hero-eyebrow" id="hero-eyebrow">MY LOCATION</div>
+        <h1 class="hero-city" id="hero-city">Mumbai</h1>
+        <div class="hero-temp" id="hero-temp">29°</div>
+        <div class="hero-condition" id="hero-condition">Torrential Rain & Monsoon Storm</div>
+        <div class="hero-hl" id="hero-hl">
+          <span>H: 29°</span>
+          <span>L: 27°</span>
+        </div>
+      </section>
+
+      <!-- SEVERITY-CODED CLIMATE WARNING STRIP -->
+      <section class="alert-strip extreme" id="alert-strip">
+        <div class="alert-left">
+          <div class="alert-icon-box">
+            <svg viewBox="0 0 24 24">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </div>
+          <div class="alert-text-content">
+            <div class="alert-headline" id="alert-headline">
+              EXTREME FLASH FLOOD & MONSOON WARNING
+              <span class="alert-headline-badge">RED ALERT</span>
+            </div>
+            <div class="alert-body" id="alert-body">
+              Severe rainfall exceeding 180mm expected within next 6 hours. High risk of urban inundation and coastal
+              storm surges.
+            </div>
+          </div>
+        </div>
+        <button class="alert-action-btn" id="alert-action-btn">Evacuation & Safety Plan</button>
+      </section>
+
+      <!-- HOURLY FORECAST RAIL -->
+      <section class="hourly-rail-card">
+        <div class="rail-header">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <span>HOURLY FORECAST & PRECIPITATION</span>
+        </div>
+        <div class="hourly-scroll-container" id="hourly-scroll-container">
+          <!-- Dynamically inserted hourly forecast items -->
+        </div>
+      </section>
+
+      <!-- MODULE GRID (3-Column Layout) -->
+      <div class="module-grid-container">
+
+        <!-- ROW 1 (Wide Modules) -->
+        <div class="grid-row-1">
+
+          <!-- 10-Day Forecast Card (Tall) -->
+          <div class="glass-card ten-day-card" data-modal-type="ten-day">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              <span>10-DAY FORECAST</span>
+            </div>
+            <div class="forecast-list" id="ten-day-list">
+              <!-- Dynamically populated 10-day forecast rows -->
+            </div>
+          </div>
+
+          <!-- Middle Column: Stacked AQI + Wind -->
+          <div class="grid-col-middle">
+            <!-- Air Quality Card -->
+            <div class="glass-card aqi-card" data-modal-type="aqi">
+              <div>
+                <div class="card-title">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                    <path d="M12 6a6 6 0 0 0-6 6h12a6 6 0 0 0-6-6z" />
+                  </svg>
+                  <span>AIR QUALITY INDEX</span>
+                </div>
+                <div class="card-hero-val" id="aqi-val">63</div>
+                <div style="font-size: 13px; font-weight: 500; color: #fde047;" id="aqi-status">Moderate Air Quality
+                </div>
+                <div class="aqi-slider-bg">
+                  <div class="aqi-slider-marker" id="aqi-marker" style="left: 35%;"></div>
+                </div>
+              </div>
+              <div class="card-subtext" id="aqi-desc">PM2.5 concentration is 18.2 µg/m³. Sensitive groups should limit
+                prolonged outdoor exertion.</div>
+            </div>
+
+            <!-- Wind Card -->
+            <div class="glass-card wind-card" data-modal-type="wind">
+              <div>
+                <div class="card-title">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2" />
+                  </svg>
+                  <span>WIND & GUSTS</span>
+                </div>
+                <div class="wind-content">
+                  <div>
+                    <div class="card-hero-val" id="wind-speed">38 km/h</div>
+                    <div class="card-subtext" id="wind-direction">Southwest · Gusts to 54 km/h</div>
+                  </div>
+                  <div class="wind-compass-box">
+                    <span class="compass-label compass-n">N</span>
+                    <span class="compass-label compass-e">E</span>
+                    <span class="compass-label compass-s">S</span>
+                    <span class="compass-label compass-w">W</span>
+                    <div class="wind-dial" id="wind-dial" style="transform: rotate(225deg);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hazard Map / Radar Canvas Card (Tall) -->
+          <div class="glass-card map-card" data-modal-type="map">
+            <div class="map-card-header">
+              <div class="card-title" style="margin-bottom: 0;">
+                <svg viewBox="0 0 24 24">
+                  <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
+                  <line x1="8" y1="2" x2="8" y2="18" />
+                  <line x1="16" y1="6" x2="16" y2="22" />
+                </svg>
+                <span>HAZARD & PRECIPITATION RADAR</span>
+              </div>
+            </div>
+            <canvas id="hazard-map-canvas"></canvas>
+            <div class="map-controls">
+              <button class="map-btn" id="map-zoom-in">+</button>
+              <button class="map-btn" id="map-zoom-out">−</button>
+            </div>
+          </div>
+
+        </div> <!-- End Row 1 -->
+
+        <!-- ROW 2 (Compact 4-Column Grid) -->
+        <div class="grid-row-compact">
+          <!-- UV Index Card -->
+          <div class="glass-card compact-card" data-modal-type="uv">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+              <span>UV INDEX</span>
+            </div>
+            <div class="card-hero-val" id="uv-val">3</div>
+            <div class="card-subtext" id="uv-desc">Moderate protection required. Wear sunglasses and sunblock.</div>
+            <div class="uv-slider-bg">
+              <div class="uv-slider-marker" id="uv-marker" style="left: 30%;"></div>
+            </div>
+          </div>
+
+          <!-- Sunset Card -->
+          <div class="glass-card compact-card" data-modal-type="sunset">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <path d="M17 18a5 5 0 0 0-10 0" />
+                <line x1="12" y1="2" x2="12" y2="9" />
+                <polyline points="9 6 12 9 15 6" />
+                <line x1="2" y1="18" x2="22" y2="18" />
+              </svg>
+              <span>SUNSET</span>
+            </div>
+            <div class="card-hero-val" id="sunset-val">7:14 PM</div>
+            <div class="card-subtext" id="sunrise-val">Sunrise tomorrow: 6:08 AM</div>
+          </div>
+
+          <!-- Feels Like Card -->
+          <div class="glass-card compact-card" data-modal-type="feelslike">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" />
+              </svg>
+              <span>FEELS LIKE</span>
+            </div>
+            <div class="card-hero-val" id="feels-val">33°</div>
+            <div class="card-subtext" id="feels-desc">High relative humidity is making it feel significantly warmer than
+              actual temperature.</div>
+          </div>
+
+          <!-- 24h Precipitation Card -->
+          <div class="glass-card compact-card" data-modal-type="precip">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+              </svg>
+              <span>PRECIPITATION (24H)</span>
+            </div>
+            <div class="card-hero-val" id="precip-val">42 mm</div>
+            <div class="card-subtext" id="precip-desc">Heavy rain accumulation over past 24h. Expected +60mm in next 12
+              hours.</div>
+          </div>
+        </div> <!-- End Row 2 -->
+
+        <!-- ROW 3 (Compact 4-Column Grid) -->
+        <div class="grid-row-compact">
+          <!-- Moon Phase Card -->
+          <div class="glass-card compact-card" data-modal-type="moon">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+              <span>MOON PHASE</span>
+            </div>
+            <div class="moon-visualizer">
+              <div class="moon-graphic" id="moon-graphic"></div>
+              <div>
+                <div style="font-size: 15px; font-weight: 600;" id="moon-phase-name">Waning Gibbous</div>
+                <div class="card-subtext" id="moon-illumination">84% Illuminated</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Humidity Card -->
+          <div class="glass-card compact-card" data-modal-type="humidity">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+              </svg>
+              <span>HUMIDITY</span>
+            </div>
+            <div class="card-hero-val" id="humidity-val">92%</div>
+            <div class="card-subtext" id="dewpoint-val">The dew point is 26° right now. Near saturation level.</div>
+          </div>
+
+          <!-- Visibility Card -->
+          <div class="glass-card compact-card" data-modal-type="visibility">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <span>VISIBILITY</span>
+            </div>
+            <div class="card-hero-val" id="vis-val">3.2 km</div>
+            <div class="card-subtext" id="vis-desc">Heavy rain mist and clouds are reducing visibility significantly.
+              Drive with caution.</div>
+          </div>
+
+          <!-- Air Pressure Card -->
+          <div class="glass-card compact-card" data-modal-type="pressure">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M16 12l-4-4-4 4" />
+                <line x1="12" y1="16" x2="12" y2="8" />
+              </svg>
+              <span>PRESSURE</span>
+            </div>
+            <div class="card-hero-val" id="pressure-val">1004 hPa</div>
+            <div class="card-subtext" id="pressure-desc">Rapidly falling pressure indicating severe convective storm
+              activity.</div>
+          </div>
+        </div> <!-- End Row 3 -->
+
+      </div> <!-- End Module Grid Container -->
+
+    </main>
+  </div>
+
+  <!-- PROGRESSIVE DISCLOSURE MODAL OVERLAY -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      <h3 class="modal-title" id="modal-title">Metric Overview</h3>
+      <div class="modal-body" id="modal-body">
+        Detailed breakdown and historical trends for this weather metric will appear here.
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript logic -->
+  <script src="app.js"></script>
+</body>
+
+</html>

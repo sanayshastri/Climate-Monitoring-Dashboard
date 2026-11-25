@@ -1,0 +1,322 @@
+/* Styles for Climate Guard Observer Form - Seamless Theme Match */
+
+.observer-root {
+  min-height: 80vh;
+  padding: 24px 16px 48px 16px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.observer-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.observer-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.observer-subtitle {
+  font-size: 0.98rem;
+  font-weight: 400;
+  color: #94a3b8;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Glassmorphic Form Container */
+.observer-form-card {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 36px 32px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Form Section Stack */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.section-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  align-self: flex-start;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #f8fafc;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Vertical Field Groups */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.custom-city-group {
+  animation: fadeInDown 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-label {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+  display: block;
+  text-align: left;
+  line-height: 1.4;
+}
+
+/* Full Width Form Inputs */
+.field-input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: rgba(15, 23, 42, 0.75);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s;
+}
+
+.field-input::placeholder {
+  color: #64748b;
+}
+
+.field-select {
+  cursor: pointer;
+  appearance: auto;
+  color: #f8fafc;
+}
+
+.field-select option {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+.field-textarea {
+  resize: vertical;
+  min-height: 85px;
+  line-height: 1.5;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+}
+
+.field-input.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+}
+
+.field-error-text {
+  color: #f87171;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 6px;
+  display: block;
+}
+
+/* Checkbox Stack & Items */
+.checkbox-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  background-color: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox-item:hover {
+  background-color: rgba(30, 41, 59, 0.7);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.checkbox-input {
+  width: 18px;
+  height: 18px;
+  accent-color: #0ea5e9;
+  cursor: pointer;
+}
+
+.checkbox-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Bottom Action Buttons Stack / Row */
+.action-buttons-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+/* Cyan/Sky Blue Accent Primary Button */
+.btn-amber-primary {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
+  transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-amber-primary:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+  box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-amber-primary:active {
+  transform: translateY(0);
+}
+
+/* Secondary Ghost/Outline Button */
+.btn-ghost-secondary {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.98rem;
+  font-weight: 600;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btn-ghost-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #f8fafc;
+}
+
+/* Responsive Rules for Laptops, iPad & Tablets */
+@media (max-width: 1200px) {
+  .observer-root {
+    max-width: 720px;
+    padding: 20px 16px 40px 16px;
+  }
+  .observer-form-card {
+    padding: 30px 28px;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .observer-root {
+    max-width: 100%;
+    padding: 16px 14px 36px 14px;
+  }
+  .observer-title {
+    font-size: 1.9rem;
+  }
+  .observer-form-card {
+    padding: 26px 22px;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .observer-root {
+    padding: 14px 10px 32px 10px;
+  }
+  .observer-title {
+    font-size: 1.7rem;
+  }
+  .observer-form-card {
+    padding: 22px 16px;
+    gap: 20px;
+    border-radius: 16px;
+  }
+  .section-title {
+    font-size: 1.1rem;
+  }
+  .field-input {
+    padding: 11px 14px;
+    font-size: 0.93rem;
+  }
+  .btn-amber-primary,
+  .btn-ghost-secondary {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+}
